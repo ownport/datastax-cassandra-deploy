@@ -1,0 +1,11 @@
+[paths]
+source = datastax_cassandra_deploy
+
+[run]
+branch = True
+source = datastax_cassandra_deploy
+parallel = true
+
+[report]
+show_missing = true
+precision = 2

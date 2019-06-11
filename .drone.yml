@@ -1,0 +1,34 @@
+
+kind: pipeline
+name: default
+
+steps:
+  - name: run tests
+    image: ownport/datastax-cassandra-test-evn:0.1.0
+    commands:
+    - pip install -e .
+    - sleep 60
+    - curl --retry 10 -k -s -X POST -d '{"username":"admin","password":"admin"}' 'https://opscenter:8443/login' 
+    - PYTHONDONTWRITEBYTECODE=1 pytest --cov=datastax_cassandra_deploy -p no:cacheprovider --junitxml=report.xml --cov-report=term-missing --cov-config=.coveragerc
+    when:
+      event:
+      - run-tests
+
+services:
+- name: opscenter
+  image: ownport/datastax-opscenter:6.7.3-v1
+
+- name: datanode-01a
+  image: ownport/datastax-datanode:6.7.3-v1
+  commands:
+  - service ssh start && tail -f /dev/null
+
+- name: datanode-01b
+  image: ownport/datastax-datanode:6.7.3-v1
+  commands:
+  - service ssh start && tail -f /dev/null
+
+- name: datanode-01c
+  image: ownport/datastax-datanode:6.7.3-v1
+  commands:
+  - service ssh start && tail -f /dev/null
