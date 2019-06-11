@@ -1,0 +1,11 @@
+
+version: '3'
+services:
+  opscenter:
+    image: ownport/datastax-opscenter:6.7.3-v1
+
+  datanode:
+    image: ownport/datastax-datanode:6.7.3-v1
+    command: bash -c 'service ssh start && tail -f /dev/null'
+
+    

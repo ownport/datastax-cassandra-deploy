@@ -1,0 +1,6 @@
+opscenter:
+  hostname: 172.19.0.3
+  username: admin
+  password: admin
+  timeout: 25
+  attempts: 3

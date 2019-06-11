@@ -1,0 +1,11 @@
+repositories:
+- name: test-repository
+  repo-key-url: null
+  repo-url: null
+  username: test
+  password: test
+  use-proxy: false
+  deb-dist: null
+  deb-components: null,
+  manual-repository-setup: true
+  comment: Test DataStax Repository

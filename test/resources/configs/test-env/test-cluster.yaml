@@ -1,0 +1,26 @@
+
+clusters:
+- name: test-cassandra-cluster
+  comment: Test Cassandra Cluster
+  repository-id: test-repository
+  config-profile-id: test-profile-v673
+  ssh-management-port: 22
+  managed: true
+  datacenter: test-datacenter
+  
+  # opsc-cluster-id: null
+  # last-job-id: null
+  # job-status: null
+
+  nodes:
+  - name: test-cluster-node-01
+    ssh-management-address: 172.19.0.4
+    seed: true
+
+  - name: test-cluster-node-02
+    ssh-management-address: 172.19.0.5
+    seed: true
+
+  - name: test-cluster-node-03
+    ssh-management-address: 172.19.0.2
+    seed: true

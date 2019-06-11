@@ -1,0 +1,16 @@
+config-profiles:
+- name: test-profile-v673 
+  datastax-version: 6.7.3
+  json:
+    cassandra-yaml: 
+      authenticator: com.datastax.bdp.cassandra.auth.DseAuthenticator
+      num_tokens: 256
+      allocate_tokens_for_local_replication_factor: 2
+      endpoint_snitch: org.apache.cassandra.locator.GossipingPropertyFileSnitch
+    dse-yaml: 
+      authorization_options: 
+        enabled: true
+      authentication_options: 
+        enabled: true
+      dsefs_options:
+        enabled: true
