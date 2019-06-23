@@ -46,6 +46,15 @@ ds-cas-deploy \
 
 ## Deployment configs (sample)
 
+Only opscenter section is mandatory. It is required for connection to DataStax OpsCenter. The rest sections are optional:
+- credentials
+- repositories
+- config-profiles
+- datacenters
+- clusters
+
+For instance, if credentials, repositories or config profiles were created before there are no need to specify them again 
+
 opscenter.yaml
 ```yaml
 opscenter:
@@ -107,7 +116,6 @@ config-profiles:
 
 datacenters.yaml
 ```yaml
-
 datacenters:
 - name: test-datacenter
 ```
