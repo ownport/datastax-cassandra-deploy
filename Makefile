@@ -9,9 +9,9 @@ pull-datastax-server:
 test:
 	@ drone exec --event=run-tests
 
-.PHONY: deployment-console
-deployment-console:
-	@ docker container run -ti --rm --name deployment-console \
+.PHONY: deploy-test-cluster
+deploy-test-cluster-console:
+	@ docker container run -ti --rm --name deploy-test-cluster-console \
 		-v $(shell pwd):/deploy \
 		--network resources_default \
 		ownport/datastax-cassandra-test-evn:0.1.0 \
@@ -22,4 +22,12 @@ deployment-console:
 					-d test/resources/configs/test-env/config-profiles.yaml \
 					-d test/resources/configs/test-env/repositories.yaml \
 					-d test/resources/configs/test-env/test-cluster.yaml'
+
+.PHONY: ds-cas-deploy-console
+ds-cas-deploy-console:
+	@ docker container run -ti --rm --name ds-cas-deploy-console \
+		-v $(shell pwd):/deploy \
+		ownport/datastax-cassandra-test-evn:0.1.0 \
+		sh -c 'cd /deploy && pip3 install -e . && \
+				ds-cas-deploy --help'
 

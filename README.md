@@ -11,3 +11,128 @@ The software is under development and not finalized yet. The use of this repo is
 ## Licence
 
 These scripts use DataStax Enterprise.  By using these scripts the user accepts the licensing terms set forth here: http://www.datastax.com/enterprise-terms
+
+## How to install
+
+```sh
+pip3 install git+https://github.com/ownport/datastax-cassandra-deploy
+```
+
+## How to use
+```sh
+ds-cas-deploy --help
+
+usage: ds-cas-deploy [-h] [-v] [-l LOG_LEVEL] [-d DEPLOYMENT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -l LOG_LEVEL, --log-level LOG_LEVEL
+                        Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  -d DEPLOYMENT, --deployment DEPLOYMENT
+                        the path to deployment configuration. Support
+                        YAML/JSON file
+```
+
+To run deployment
+```sh
+ds-cas-deploy \
+	-d test/resources/configs/test-env/opscenter.yaml \
+	-d test/resources/configs/test-env/credentials.yaml \
+	-d test/resources/configs/test-env/config-profiles.yaml \
+	-d test/resources/configs/test-env/repositories.yaml \
+	-d test/resources/configs/test-env/test-cluster.yaml
+```
+
+## Deployment configs (sample)
+
+opscenter.yaml
+```yaml
+opscenter:
+  hostname: 172.19.0.3
+  username: admin
+  password: admin
+  timeout: 25
+  attempts: 3
+```
+
+credentials.yaml
+```yaml
+credentials:
+- name: test-ssh-creds
+  become-mode: sudo
+  use-ssh-keys: true
+  login-user: cassandra
+  login-password:  null
+  ssh-private-key: test/resources/keys/cassandra
+  ssh-unlock:  null
+  become-user: null
+  become-password: null
+```
+
+repositories.yaml
+```yaml
+repositories:
+- name: test-repository
+  repo-key-url: null
+  repo-url: null
+  username: test
+  password: test
+  use-proxy: false
+  deb-dist: null
+  deb-components: null,
+  manual-repository-setup: true
+  comment: Test DataStax Repository
+```
+
+config-profiles.yaml
+```yaml
+config-profiles:
+- name: test-profile-v673 
+  datastax-version: 6.7.3
+  json:
+    cassandra-yaml: 
+      authenticator: com.datastax.bdp.cassandra.auth.DseAuthenticator
+      num_tokens: 256
+      allocate_tokens_for_local_replication_factor: 2
+      endpoint_snitch: org.apache.cassandra.locator.GossipingPropertyFileSnitch
+    dse-yaml: 
+      authorization_options: 
+        enabled: true
+      authentication_options: 
+        enabled: true
+      dsefs_options:
+        enabled: true
+```
+
+datacenters.yaml
+```yaml
+
+datacenters:
+- name: test-datacenter
+```
+
+test-cluster.yaml
+```yaml
+clusters:
+- name: test-cassandra-cluster
+  comment: Test Cassandra Cluster
+  repository-id: test-repository
+  config-profile-id: test-profile-v673
+  ssh-management-port: 22
+  managed: true
+  datacenter: test-datacenter
+  
+  nodes:
+  - name: test-cluster-node-01
+    ssh-management-address: 172.19.0.4
+    seed: true
+
+  - name: test-cluster-node-02
+    ssh-management-address: 172.19.0.5
+    seed: true
+
+  - name: test-cluster-node-03
+    ssh-management-address: 172.19.0.2
+    seed: true
+```
