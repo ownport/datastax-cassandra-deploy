@@ -47,10 +47,10 @@ To run deployment
 ```sh
 ds-cas-deploy \
   --action deploy \
-	--deployment test/resources/configs/test-env/opscenter.yaml \
-	--deployment test/resources/configs/test-env/credentials.yaml \
-	--deployment test/resources/configs/test-env/config-profiles.yaml \
-	--deployment test/resources/configs/test-env/repositories.yaml \
+  --deployment test/resources/configs/test-env/opscenter.yaml \
+  --deployment test/resources/configs/test-env/credentials.yaml \
+  --deployment test/resources/configs/test-env/config-profiles.yaml \
+  --deployment test/resources/configs/test-env/repositories.yaml \
   --deployment test/resources/configs/test-env/test-cluster.yaml
 ```
 
@@ -63,7 +63,7 @@ ds-cas-deploy \
   --section datacenters \
   --section repositories \
   --output test/resources/configs/test-env/opscenter-dump.json \
-	--deployment test/resources/configs/test-env/opscenter.yaml
+  --deployment test/resources/configs/test-env/opscenter.yaml
 ```
 
 
