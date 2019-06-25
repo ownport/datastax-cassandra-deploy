@@ -1,4 +1,5 @@
 
+import json
 import logging
 
 from datastax_cassandra_deploy.node import Node
@@ -21,6 +22,12 @@ def get_resource_by_name(name, resources):
     return {}
 
 
+def json_dump(output, data):
+    ''' dump data into json file
+    '''
+    json.dump(data, output, sort_keys=True, indent=4)
+
+
 class Topology():
 
     def __init__(self, deployments):
@@ -39,6 +46,29 @@ class Topology():
         self.deploy_config_profiles()
         self.deploy_repositories()
         self.deploy_clusters()
+
+    def dump(self, sections, output_path):
+        ''' dump sections
+        '''
+        if not self.connect():
+            logger.error('Cannot connect to OpsCenters')
+            return
+
+        with open(output_path, 'w') as output:
+            if 'credentials' in sections:
+                self.dump_credentials(output)
+            
+            if 'config-profiles' in sections:
+                self.dump_config_profiles(output)
+
+            if 'repositories' in sections:
+                self.dump_repositories(output)
+
+            if 'datacenters' in sections:
+                self.dump_datacenters(output)
+
+            if 'clusters' in sections:
+                self.dump_clusters(output)
 
     def connect(self):
         ''' connect to OpsCenter
@@ -65,6 +95,12 @@ class Topology():
             if created_creds:
                 logger.info(created_creds)
 
+    def dump_credentials(self, output):
+        ''' dump credentials
+        '''
+        credentials = Credentials(self.opscenter.url, self.opscenter.session)
+        json_dump(output, {'credentials': credentials.get().get('results', []) })
+
     def deploy_config_profiles(self):
         ''' deploy config profiles
         '''
@@ -74,6 +110,12 @@ class Topology():
             if created_conf_profile:
                 logger.info(created_conf_profile)
 
+    def dump_config_profiles(self, output):
+        ''' dump config profiles
+        '''
+        config_profiles = ConfigProfile(self.opscenter.url, self.opscenter.session)
+        json_dump(output, {'config-profiles': config_profiles.get().get('results', []) })
+
     def deploy_repositories(self):
         ''' deploy repositories
         '''
@@ -82,6 +124,12 @@ class Topology():
             created_repo = repositories.add(**repo)
             if created_repo:
                 logger.info(created_repo)
+
+    def dump_repositories(self, output):
+        ''' dump repositories
+        '''
+        repositories = Repository(self.opscenter.url, self.opscenter.session)
+        json_dump(output, {'repositories': repositories.get().get('results', []) })
 
     def deploy_clusters(self):
         ''' deploy clusters
