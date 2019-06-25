@@ -46,24 +46,24 @@ optional arguments:
 To run deployment
 ```sh
 ds-cas-deploy \
-  -a deploy \
-	-d test/resources/configs/test-env/opscenter.yaml \
-	-d test/resources/configs/test-env/credentials.yaml \
-	-d test/resources/configs/test-env/config-profiles.yaml \
-	-d test/resources/configs/test-env/repositories.yaml \
-	-d test/resources/configs/test-env/test-cluster.yaml
+  --action deploy \
+	--deployment test/resources/configs/test-env/opscenter.yaml \
+	--deployment test/resources/configs/test-env/credentials.yaml \
+	--deployment test/resources/configs/test-env/config-profiles.yaml \
+	--deployment test/resources/configs/test-env/repositories.yaml \
+  --deployment test/resources/configs/test-env/test-cluster.yaml
 ```
 
 To dump data from OpsCenter
 ```sh
 ds-cas-deploy \
-  -a dump \
-  -s credentials \
-  -s config-profiles \
-  -s datacenters \
-  -s repositories \
-  -o test/resources/configs/test-env/opscenter-dump.json \
-	-d test/resources/configs/test-env/opscenter.yaml \
+  --action dump \
+  --section credentials \
+  --section config-profiles \
+  --section datacenters \
+  --section repositories \
+  --output test/resources/configs/test-env/opscenter-dump.json \
+	--deployment test/resources/configs/test-env/opscenter.yaml
 ```
 
 
