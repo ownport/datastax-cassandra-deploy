@@ -25,7 +25,7 @@ class CLI(object):
         parser.add_argument('-s', '--section', action='append',
                             help='The section for config dump. Possible values: credentials, config-profiles, datacenters, repositories, clusters')
         parser.add_argument('-o', '--output', 
-                            help='The output path for config dump')
+                            help='The output path for config dump, JSON file')
         parser.add_argument('-d', '--deployment', dest="deployment", action="append",
                             help="the path to deployment configuration. Support YAML/JSON file",
                             default=[])

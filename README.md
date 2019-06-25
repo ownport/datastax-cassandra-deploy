@@ -22,13 +22,22 @@ pip3 install git+https://github.com/ownport/datastax-cassandra-deploy
 ```sh
 ds-cas-deploy --help
 
-usage: ds-cas-deploy [-h] [-v] [-l LOG_LEVEL] [-d DEPLOYMENT]
+usage: ds-cas-deploy [-h] [-v] [-l LOG_LEVEL] [-a ACTION] [-s SECTION]
+                     [-o OUTPUT] [-d DEPLOYMENT]
 
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
   -l LOG_LEVEL, --log-level LOG_LEVEL
                         Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  -a ACTION, --action ACTION
+                        Actions: deploy | dump
+  -s SECTION, --section SECTION
+                        The section for config dump. Possible values:
+                        credentials, config-profiles, datacenters,
+                        repositories, clusters
+  -o OUTPUT, --output OUTPUT
+                        The output path for config dump, JSON file
   -d DEPLOYMENT, --deployment DEPLOYMENT
                         the path to deployment configuration. Support
                         YAML/JSON file
@@ -37,12 +46,26 @@ optional arguments:
 To run deployment
 ```sh
 ds-cas-deploy \
+  -a deploy \
 	-d test/resources/configs/test-env/opscenter.yaml \
 	-d test/resources/configs/test-env/credentials.yaml \
 	-d test/resources/configs/test-env/config-profiles.yaml \
 	-d test/resources/configs/test-env/repositories.yaml \
 	-d test/resources/configs/test-env/test-cluster.yaml
 ```
+
+To dump data from OpsCenter
+```sh
+ds-cas-deploy \
+  -a dump \
+  -s credentials \
+  -s config-profiles \
+  -s datacenters \
+  -s repositories \
+  -o test/resources/configs/test-env/opscenter-dump.json \
+	-d test/resources/configs/test-env/opscenter.yaml \
+```
+
 
 ## Deployment configs (sample)
 
