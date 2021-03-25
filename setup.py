@@ -19,7 +19,7 @@ setup(
     python_requires = '>=3.5',
     install_requires = [
         'requests==2.22.0',
-        'PyYAML==5.1.1',
+        'PyYAML==5.4',
     ],
     entry_points = {
         'console_scripts': [ 'ds-cas-deploy=datastax_cassandra_deploy.cli:launch_new_instance' ]
